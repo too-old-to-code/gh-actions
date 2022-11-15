@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  api:
+    depends_on:
+      - mongodb
+    build: ./server-applications/api
+  veet:
+    depends_on:
+      - reverse-proxy
+    build: ./frontend-applications/veet
+  mongodb:
+    image: mongo:latest
+  reverse-proxy:
+    restart: always
+    build: .
+    ports:
+      - "80:80"
