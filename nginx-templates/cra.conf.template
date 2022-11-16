@@ -1,17 +1,17 @@
-upstream veet {
-    server veet:80;
+upstream cra {
+    server cra:80;
 }
 
-upstream veet-api {
+upstream cra-api {
     server api:3000;
 }
 
 server {
     listen 80;
-    server_name veet.triggatron.co.uk triggatron.co.uk a.triggatron.co.uk;  
+    server_name cra.triggatron.co.uk;  
 
     location ~ ^/api(.*) {
-        proxy_pass $scheme://veet-api$1;
+        proxy_pass $scheme://cra-api$1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -19,7 +19,7 @@ server {
     }
 
     location / {
-        proxy_pass $scheme://veet;
+        proxy_pass $scheme://cra;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

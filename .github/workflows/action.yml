@@ -58,6 +58,44 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{matrix.app}}:latest
+  
+  access-droplet:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.SSH_HOST }}
+        USERNAME: ${{ secrets.SSH_USERNAME }}
+        KEY: ${{ secrets.SSH_KEY }}
+      with:
+        source: "."
+        target: "/opt/app"
+
+    - name: Executing remote  command
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        USERNAME: ${{ secrets.SSH_USERNAME }}
+        KEY: ${{ secrets.SSH_KEY }}
+        script: |
+          cd /opt/app
+          docker-compose up --build &
+
+  # access-droplet:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+
+  #     - name: Deploy node app
+  #       uses: fifsky/ssh-action@master
+  #       with:
+  #         host: ${{secrets.SSH_HOST}}
+  #         key: ${{secrets.SSH_KEY}}
+  #         user: ${{secrets.SSH_USERNAME}}
+  #         command: | 
+  #           git clone https://github.com/too-old-to-code/nginx-play.git

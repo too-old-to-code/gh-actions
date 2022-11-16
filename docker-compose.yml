@@ -4,6 +4,10 @@ services:
     depends_on:
       - mongodb
     build: ./server-applications/api
+  cra:
+    depends_on:
+      - reverse-proxy
+    build: ./frontend-applications/cra
   veet:
     depends_on:
       - reverse-proxy
