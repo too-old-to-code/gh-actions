@@ -1,17 +1,28 @@
 version: "3.9"
 services:
+  spring:
+    image: andrewt51/spring
+    # build: ./server-applications/demo
   api:
     depends_on:
       - mongodb
-    build: ./server-applications/api
+    image: andrewt51/api
+    # build: ./server-applications/api
   cra:
     depends_on:
       - reverse-proxy
-    build: ./frontend-applications/cra
+    image: andrewt51/cra
+    # build: ./frontend-applications/cra
+  nxtjs:
+    depends_on:
+      - reverse-proxy
+    image: andrewt51/nxtjs
+    # build: ./frontend-applications/nxtjs
   veet:
     depends_on:
       - reverse-proxy
-    build: ./frontend-applications/veet
+    image: andrewt51/veet
+    # build: ./frontend-applications/veet
   mongodb:
     image: mongo:latest
   reverse-proxy:
