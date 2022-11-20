@@ -11,8 +11,8 @@ jobs:
       matrix:
         app: [veet, nxtjs, cra]
     steps:
-    # - name: Checkout repository
-    #   uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -38,12 +38,14 @@ jobs:
   
   build-node-backend:
     runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx4g -XX:MaxMetaspaceSize=1g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
     strategy:
       matrix:
         app: [api, spring]
     steps:
-    # - name: Checkout repository
-    #   uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -62,7 +64,7 @@ jobs:
       with:
         working-directory: server-applications/${{ matrix.app }}
         context: .
-        # platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64,linux/arm64
         # file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{matrix.app}}:latest

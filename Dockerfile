@@ -1,2 +1,2 @@
 FROM nginx
-COPY ./nginx-templates /etc/nginx/templates
+COPY ./conf.d /etc/nginx/conf.d
