@@ -2,20 +2,25 @@
 # version: "3.9"
 # services:
 #   spring:
+#     platform: linux/amd64
 #     image: andrewt51/spring
 #   api:
+#     platform: linux/amd64
 #     depends_on:
 #       - mongodb
 #     image: andrewt51/api
 #   cra:
+#     platform: linux/amd64
 #     depends_on:
 #       - reverse-proxy
 #     image: andrewt51/cra
 #   nxtjs:
+#     platform: linux/amd64
 #     depends_on:
 #       - reverse-proxy
 #     image: andrewt51/nxtjs
 #   veet:
+#     platform: linux/amd64
 #     depends_on:
 #       - reverse-proxy
 #     image: andrewt51/veet
@@ -28,56 +33,26 @@
 #       - "80:80"
 
 # Build
-# version: "3.9"
-# services:
-#   spring:
-#     build: ./server-applications/spring
-#   api:
-#     depends_on:
-#       - mongodb
-#     build: ./server-applications/api
-#   cra:
-#     depends_on:
-#       - reverse-proxy
-#     build: ./frontend-applications/cra
-#   nxtjs:
-#     depends_on:
-#       - spring
-#       - reverse-proxy
-#     build: ./frontend-applications/nxtjs
-#   veet:
-#     depends_on:
-#       - reverse-proxy
-#     build: ./frontend-applications/veet
-#   mongodb:
-#     image: mongo:latest
-#   reverse-proxy:
-#     restart: always
-#     build: .
-#     ports:
-#       - "80:80"
-
-# Image
 version: "3.9"
 services:
-  # spring:
-  #   image: andrewt51/spring
+  spring:
+    build: ./server-applications/spring
   api:
     depends_on:
       - mongodb
-    image: andrewt51/api
+    build: ./server-applications/api
   cra:
     depends_on:
       - reverse-proxy
-    image: andrewt51/cra
-  # nxtjs:
-  #   depends_on:
-  #     - reverse-proxy
-  #   image: andrewt51/nxtjs
+    build: ./frontend-applications/cra
+  nxtjs:
+    depends_on:
+      - reverse-proxy
+    build: ./frontend-applications/nxtjs
   veet:
     depends_on:
       - reverse-proxy
-    image: andrewt51/veet
+    build: ./frontend-applications/veet
   mongodb:
     image: mongo:latest
   reverse-proxy:
@@ -85,3 +60,36 @@ services:
     build: .
     ports:
       - "80:80"
+
+# Image
+# version: "3.9"
+# services:
+#   # spring:
+#   #   image: andrewt51/spring
+#   api:
+#     platform: linux/amd64
+#     depends_on:
+#       - mongodb
+#     image: andrewt51/api
+#   cra:
+#     platform: linux/amd64
+#     depends_on:
+#       - reverse-proxy
+#     image: andrewt51/cra
+    
+#   # nxtjs:
+#   #   depends_on:
+#   #     - reverse-proxy
+#   #   image: andrewt51/nxtjs
+#   veet:
+#     platform: linux/amd64
+#     depends_on:
+#       - reverse-proxy
+#     image: andrewt51/veet
+#   mongodb:
+#     image: mongo:latest
+#   reverse-proxy:
+#     restart: always
+#     build: .
+#     ports:
+#       - "80:80"
